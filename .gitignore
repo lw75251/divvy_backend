@@ -1,2 +1,3 @@
 # Each Environment must have its own .env file
 *.env
+*.code-workspace

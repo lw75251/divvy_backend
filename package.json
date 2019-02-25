@@ -5,9 +5,11 @@
   "main": "src/index.js",
   "scripts": {
     "prebuild": "tslint -c configs/tslint.json -p configs/tsconfig.json --fix",
+    "dev": "ts-node ./src/server.ts",
     "build": "tsc",
     "prestart": "npm run build",
-    "start": "node .",
+    "prod": "npm run build && npm run start",
+    "start": "nodemon ./dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

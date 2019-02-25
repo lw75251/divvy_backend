@@ -2,6 +2,7 @@
 Divvy uses Node.js Express.js to write the server logic and RESTful API Endpoints
 
 ## Packages
+* dotenv
 * typescript
 * tslint
 * @types/node
