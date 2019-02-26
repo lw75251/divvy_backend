@@ -1,22 +1,21 @@
 {
   "name": "divvy_backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "src/index.js",
+  "description": "Backend",
+  "main": "src/app.ts",
   "scripts": {
-    "prebuild": "tslint -c configs/tslint.json -p configs/tsconfig.json --fix",
+    "prebuild": "tslint -c ./configs/tslint.json -p ./configs/tsconfig.json --fix",
     "dev": "ts-node ./src/server.ts",
     "build": "tsc",
     "prestart": "npm run build",
     "prod": "npm run build && npm run start",
-    "start": "nodemon ./dist/server.js",
+    "start": "nodemon ./dist/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lw75251/divvy_backend.git"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -24,12 +23,17 @@
   },
   "homepage": "https://github.com/lw75251/divvy_backend#readme",
   "dependencies": {
+    "@google-cloud/firestore": "^1.0.1",
     "@types/express": "^4.16.1",
+    "@types/joi": "^14.3.2",
     "@types/node": "^11.9.5",
-    "dotenv": "^6.2.0",
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "firebase-admin": "^7.0.0",
     "joi": "^14.3.1",
-    "tslint": "^5.12.1",
+    "nodemon": "^1.18.10",
+    "ts-node": "^8.0.2",
+    "tslint": "^5.13.0",
     "typescript": "^3.3.3333"
   }
 }
