@@ -23,7 +23,6 @@ export class UserDAO {
         }
     }
 
-    // TODO: Check to see if user exists
     public userRefExists = async ( uid: string ): Promise<boolean> => {
 
         let exists = false;
@@ -38,12 +37,11 @@ export class UserDAO {
 
     public writeToFireStore( user : User ) {
         const docRef: DocumentReference = this.colRef.doc(user.getUID());
-        docRef.set(user.toDict());
-    }
-
-    public updateFireStore( user: User ) {
-        const docRef: DocumentReference = this.colRef.doc(user.getUID());
         docRef.set(user.toDict(), {merge: true});
     }
 
+    public async removeFromFirestore( uid: string ): Promise<boolean>{
+        await this.colRef.doc(uid).delete();
+        return true;
+    }
 }

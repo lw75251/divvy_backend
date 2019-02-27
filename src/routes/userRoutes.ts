@@ -3,7 +3,7 @@ import * as express from "express";
 import { Request, Response } from "express";
 import { UserController } from "../controllers/UserController";
 import { User } from "../models/User";
-import { request } from "http";
+
 
 export class Routes {
 
@@ -22,9 +22,9 @@ export class Routes {
             });
         });
 
-        // Contact
+
         app.route("/users")
-        // POST endpoint
+
         .post( async (req: Request, res: Response) => {
 
             const body = req.body;
@@ -56,12 +56,34 @@ export class Routes {
                 });
             }
         })
-        .put( (req: Request, res: Response) => {
+
+        .put( async (req: Request, res: Response) => {
 
             const uid: string = req.params["uid"];
-            
+            const body = req.body;
+
+            if ( await this.userController.updateUser(body) ) {
+                res.status(200).send({
+                    message: "Updated User!"
+                });
+            } else {
+                res.status(500).send({
+                    message: "Did not update User"
+                });
+            }
+        })
+
+        .delete( async (req: Request, res: Response) => {
+            const uid: string = req.params["uid"];
+            if ( await this.userController.deleteUser(uid) ) {
+                res.status(200).send({
+                    message: "Deleted User"
+                });
+            } else {
+                res.status(500).send({
+                    message: "User does not exist"
+                });
+            }
         });
-
-
     }
 }

@@ -16,7 +16,6 @@ export class UserController {
         const userValidator = new UserValidator();
         const result = userValidator.validateUser(userData);        
 
-        // TODO: Check if User Already Exists in DB
         if ( await this.checkUserExists(userData["uid"]) || result.error) {
             return false;
         }
@@ -26,6 +25,21 @@ export class UserController {
 
         // Step 3: Use DAO to write to firestore
         this.userDAO.writeToFireStore(newUser);
+
+        return true;
+    }
+
+    public async updateUser( userData: UserOptions): Promise<boolean> {
+
+        const userValidator = new UserValidator();
+        const result = userValidator.validateUser(userData);        
+
+        if ( result.error) {
+            return false;
+        }
+
+        const updatedUser = new User(userData);
+        this.userDAO.writeToFireStore(updatedUser);
 
         return true;
     }
@@ -44,7 +58,10 @@ export class UserController {
         return user;
     }
 
-    // TODO: Check if User Already Exists in DB
+    public async deleteUser( uid: string ): Promise<boolean> {
+        return await this.userDAO.removeFromFirestore(uid);
+    }
+
     public async checkUserExists(uid: string): Promise<boolean> {
         return await this.userDAO.userRefExists(uid);
     }
