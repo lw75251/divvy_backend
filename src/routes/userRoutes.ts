@@ -2,8 +2,16 @@ import * as bodyParser from "body-parser";
 import * as express from "express";
 import { Request, Response } from "express";
 import { UserController } from "../controllers/UserController";
+import { User } from "../models/User";
+import { request } from "http";
 
 export class Routes {
+
+    private userController: UserController;
+
+    constructor() {
+        this.userController = new UserController();
+    }
 
     public routes(app: express.Application): void {
 
@@ -15,33 +23,45 @@ export class Routes {
         });
 
         // Contact
-        app.route("/user")
+        app.route("/users")
         // POST endpoint
-        .post((req: Request, res: Response) => {
+        .post( async (req: Request, res: Response) => {
 
             const body = req.body;
-            const userController = new UserController();
 
-            if ( !userController.createUser(body) ) {
-                res.status(500).send({
-                    message: "Did not create User"
-                });
-            } else {
+            if ( await this.userController.createUser(body) ) {
                 res.status(200).send({
                     message: "Created New User!"
+                });
+            } else {
+                res.status(500).send({
+                    message: "Did not create User"
                 });
             }
         });
 
-        // Contact detail
-        app.route("/contact/:contactId")
-        // get specific contact
-        .get((req: Request, res: Response) => {
-        // Get a single contact detail
-            res.status(200).send({
-                message: "GET request successfulll!!!!"
-            });
+        app.route("/users/:uid")
+        .get( async (req: Request, res: Response) => {
+
+            const uid: string = req.params["uid"];
+            const user: User = await this.userController.getUser(uid);
+            if ( user == null ) {
+                res.status(400).send({
+                    message: "User Not Found"
+                });
+            }
+            else {
+                res.status(200).send({
+                    message: user.toDict()
+                });
+            }
+        })
+        .put( (req: Request, res: Response) => {
+
+            const uid: string = req.params["uid"];
+            
         });
+
 
     }
 }

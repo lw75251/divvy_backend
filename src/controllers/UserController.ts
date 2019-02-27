@@ -1,18 +1,23 @@
 import { UserDAO } from "../data_access/UserDAO";
-import { User, userOptions } from "../models/User";
+import { User, UserOptions } from "../models/User";
 import { UserValidator } from "../validation/UserValidator";
+import { DocumentReference } from "@google-cloud/firestore";
 
 export class UserController {
 
-    public createUser( userData: userOptions): boolean {
-        const userDAO = new UserDAO();
+    private userDAO: UserDAO;
+    constructor() {
+        this.userDAO = new UserDAO();
+    }
+
+    public async createUser( userData: UserOptions): Promise<boolean> {
 
         // step 1: Validate
         const userValidator = new UserValidator();
-        const result = userValidator.validateUser(userData);
+        const result = userValidator.validateUser(userData);        
 
         // TODO: Check if User Already Exists in DB
-        if ( result.error ) {
+        if ( await this.checkUserExists(userData["uid"]) || result.error) {
             return false;
         }
 
@@ -20,13 +25,28 @@ export class UserController {
         const newUser = new User(userData);
 
         // Step 3: Use DAO to write to firestore
-        userDAO.writeToFireStore(newUser);
+        this.userDAO.writeToFireStore(newUser);
 
         return true;
+    }
+
+    public async getUser( uid: string ): Promise<User> {
+
+        let userOptions = null;
+        let user = null;
+        await this.userDAO.getUserOptions(uid).then( data => {
+            userOptions = data;
+            user = new User(userOptions);
+        })
+        .catch( err => {
+            console.error("No User");
+        });
+        return user;
     }
 
     // TODO: Check if User Already Exists in DB
-    public checkUserExists(): boolean {
-        return true;
+    public async checkUserExists(uid: string): Promise<boolean> {
+        return await this.userDAO.userRefExists(uid);
     }
+
 }
