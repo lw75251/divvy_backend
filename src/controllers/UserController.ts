@@ -1,7 +1,7 @@
 import { UserDAO } from "../data_access/UserDAO";
 import { User, UserOptions } from "../models/User";
 import { UserValidator } from "../validation/UserValidator";
-import { DocumentReference } from "@google-cloud/firestore";
+
 
 export class UserController {
 
@@ -52,8 +52,8 @@ export class UserController {
             userOptions = data;
             user = new User(userOptions);
         })
-        .catch( err => {
-            console.error("No User");
+        .catch( (err) => {
+            console.error("No User", err);
         });
         return user;
     }

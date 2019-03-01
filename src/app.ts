@@ -1,18 +1,21 @@
 import * as bodyParser from "body-parser";
 import * as express from "express";
-import { Routes } from "./routes/userRoutes";
+import { UserRoutes } from "./routes/userRoutes";
+import { BillRoutes } from "./routes/billRoutes";
 
 class App {
 
     public app: express.Application;
-    public routePrv: Routes = new Routes();
+    public userRoutes: UserRoutes = new UserRoutes();
+    public billRoutes: BillRoutes = new BillRoutes();
 
     constructor() {
         this.app = express();
         this.config();
 
         this.app.use(bodyParser.json());
-        this.routePrv.routes(this.app);
+        this.userRoutes.routes(this.app);
+        this.billRoutes.routes(this.app);
     }
 
     private config(): void {

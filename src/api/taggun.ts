@@ -8,20 +8,20 @@ interface Header{
     headers: APIKeys;
 }
 
-interface TaggunOptions {
+export interface TaggunOptions {
     file: string;
     incognito: boolean;
     language: string;
 }
 
-class TaggunController {
-    private taggunOptions: JSON = require("../../../apikeys.json");
+export class TaggunController {
+    private taggunOptions: JSON = require("../../../taggun.json");
     private apikey: string = this.taggunOptions["taggunApiKey"];
 
     /**
-     * getReceiptJSON
+     * getReceiptJSON - Returns JSON from Taggun
        */
-    public getReceiptJSON( filePath: string) {
+    public getReceiptJSON() {
         const url: string = "https://api.taggun.io/api/receipt/v1/verbose/file";
         const formData = {
             "file": "./340px-ReceiptSwiss.jpg",
@@ -36,7 +36,16 @@ class TaggunController {
     }
 
     private async postTaggunReceipt (url: string, formData: TaggunOptions, configs: Header ) {
-        Axios.post(url,formData,configs)
+        
+        return Axios.post(url,formData,configs)
+        .then( (res) => {
+            console.log("Upload Successful! Server responded with:", res);
+            return true;
+        })
+        .catch( (err) => {
+            console.error(err);
+            return false;
+        })
     }
 }
 
