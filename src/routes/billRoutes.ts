@@ -30,8 +30,6 @@ export class BillRoutes {
                         message: "Failed to create Bill"
                     });
                 }
-
-
             })
     }
 }
