@@ -15,13 +15,13 @@ export class BillController {
         this.taggunController = new TaggunController();
     }
 
-    public async createBill( billData: BillOptions ): Promise<boolean> {
+    public async createBill( billData: BillOptions ): Promise<Bill> {
 
         const billValidator = new BillValidator();
         const result = billValidator.validateBill(billData);
 
         if (result.error) {
-            return false;
+            return null;
         }
 
         // TODO: Make call to TaggunController. Fill out items, restuaurant
@@ -30,7 +30,7 @@ export class BillController {
         const newBill = new Bill(billData);
         this.billDAO.writeToFireStore(newBill);
 
-        return true;
+        return newBill;
     }
 
     public async checkBillExists(uid: string): Promise<boolean> {

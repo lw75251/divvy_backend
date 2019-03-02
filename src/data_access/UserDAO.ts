@@ -36,7 +36,7 @@ export class UserDAO {
     }
 
     public writeToFireStore( user : User ) {
-        const docRef: DocumentReference = this.colRef.doc(user.getUID());
+        const docRef: DocumentReference = this.colRef.doc(user.getUid());
         docRef.set(user.toDict(), {merge: true});
     }
 

@@ -27,7 +27,7 @@ export class User {
         this.bills = new Array<Bill>();
     }
 
-    public getUID = () => this.uid;
+    public getUid = () => this.uid;
 
     public toDict() {
         return {

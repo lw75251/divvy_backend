@@ -2,6 +2,7 @@ import * as express from "express";
 import { Request, Response } from "express";
 import { UserController } from "../controllers/UserController";
 import { BillController } from "../controllers/BillController";
+import { Bill } from "../models/Bill";
 
 
 export class BillRoutes {
@@ -18,10 +19,11 @@ export class BillRoutes {
 
         app.route("/bill/create")
             .post( async (req: Request, res: Response) => {
-                
-                if(this.billController.createBill(req.body)) {
+               
+                let newBill: Bill = await this.billController.createBill(req.body);
+                if( newBill != null) {
                     res.status(200).send({
-                        message: "Created Bill"
+                        message: newBill.toDict()
                     });
                 } else {
                     res.status(500).send({
