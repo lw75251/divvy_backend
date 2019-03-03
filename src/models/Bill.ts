@@ -26,9 +26,16 @@ export class Bill {
         // this.restaurantId = billData["restaurantId"];
         this.timestamp = billData["timestamp"];
         // this.items = billData["items"];
-        this.joinKey = nanoid(4);
-        this.users = new Array<string>();
-        this.users.push(billData["userId"]);
+        this.joinKey = nanoid(5);
+
+        if ( billData["users"] == null ) {
+            this.users = new Array<string>();
+            this.users.push(billData["userId"]);
+        } else {
+            this.users = billData["users"];
+        }
+
+
 
     }
 
@@ -42,7 +49,7 @@ export class Bill {
     public toDict() {
         return {
             "uid": this.uid,
-            "joinkey": this.joinKey,
+            "joinKey": this.joinKey,
             // "restaurantId": this.restaurantId,
             "timestamp": this.timestamp,
             "users": this.users,

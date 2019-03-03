@@ -8,17 +8,18 @@ import { TaggunController } from "../api/taggun";
 export class BillController {
 
     private billDAO: BillDAO;
+    private billValidator: BillValidator;
     private taggunController: TaggunController;
 
     constructor() {
         this.billDAO = new BillDAO();
+        this.billValidator = new BillValidator();
         this.taggunController = new TaggunController();
     }
 
     public async createBill( billData: BillOptions ): Promise<Bill> {
 
-        const billValidator = new BillValidator();
-        const result = billValidator.validateBill(billData);
+        const result = this.billValidator.validateBill(billData);
 
         if (result.error) {
             return null;
@@ -31,6 +32,25 @@ export class BillController {
         this.billDAO.writeToFireStore(newBill);
 
         return newBill;
+    }
+
+    public async getBill( billId: string ): Promise<Bill> {
+        return await this.billDAO.getBillOptions(billId);
+    }
+
+    public async joinBill( joinData ): Promise<string | boolean> {
+
+        const result = this.billValidator.validateJoinBill(joinData);
+
+        if ( result.error) {
+            console.log(result.error);
+            return false;
+        }
+
+        const addUser: string = joinData["userId"];
+        const joinKey: string = joinData["joinKey"];
+
+        return await this.billDAO.joinActiveBill(joinKey,addUser)
     }
 
     public async checkBillExists(uid: string): Promise<boolean> {
