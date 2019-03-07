@@ -17,7 +17,7 @@ export class UserController {
         const userValidator = new UserValidator();
         const result = userValidator.validateUser(userData);        
         console.log("VALIDATE METHOD /// DONE ");
-
+        console.log("Params being passed in: ", userData["uid"], result.error)
         if ( await this.checkUserExists(userData["uid"]) || result.error) {
             return false;
         }

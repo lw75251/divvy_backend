@@ -26,6 +26,7 @@ export class UserDAO {
     public userRefExists = async ( uid: string ): Promise<boolean> => {
 
         let exists = false;
+        console.log("Performs search in Firestore")
         await this.colRef.doc(uid).get()
         .then( snapshot => {
             if( snapshot.exists ) {
