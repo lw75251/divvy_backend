@@ -14,8 +14,6 @@ const CLIENT_EMAIL = process.env.CLIENT_EMAIL;
 const PRIVATE_KEY = process.env.PRIVATE_KEY.replace(/\\n/g, "\n");
 const DATABASE_URL = process.env.DATABASE_URL;
 
-console.log(PROJECT_ID, CLIENT_EMAIL, PRIVATE_KEY, DATABASE_URL);
-
 admin.initializeApp({
   credential: admin.credential.cert({
     clientEmail: CLIENT_EMAIL,

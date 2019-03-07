@@ -12,20 +12,25 @@ export class UserController {
 
     public async createUser( userData: UserOptions): Promise<boolean> {
 
+        console.log("CREATE USER METHOD")
         // step 1: Validate
         const userValidator = new UserValidator();
         const result = userValidator.validateUser(userData);        
+        console.log("VALIDATE METHOD /// DONE ");
 
         if ( await this.checkUserExists(userData["uid"]) || result.error) {
             return false;
         }
+        console.log("CHECK USER METHOD /// DONE");
 
         // Step 2 : Create User Object
         const newUser = new User(userData);
 
         // Step 3: Use DAO to write to firestore
         this.userDAO.writeToFireStore(newUser);
+        console.log("WRITE USER METHOD TO FIRESTORE /// DONE");
 
+        console.log("CREATE USER METHOD /// DONE");
         return true;
     }
 
