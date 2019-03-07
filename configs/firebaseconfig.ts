@@ -18,7 +18,7 @@ admin.initializeApp({
   credential: admin.credential.cert({
     projectId: PROJECT_ID,
     clientEmail: CLIENT_EMAIL,
-    privateKey: PRIVATE_KEY
+    privateKey: PRIVATE_KEY.replace(/\\n/g, '\n')
   }),
   databaseURL: DATABASE_URL
 });
