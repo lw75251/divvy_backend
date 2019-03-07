@@ -11,8 +11,9 @@ export class UserValidator {
             uid: Joi.string(),
             displayName: Joi.string(),
             email: Joi.string(),
-            company: Joi.string(),
-            photoURL: Joi.string()
+            // company: Joi.string(),
+            phoneNumber: Joi.string(),
+            photoUrl: Joi.string().optional()
         });
 
         const result = Joi.validate(userData, schema);

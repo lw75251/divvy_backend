@@ -35,7 +35,7 @@ export class BillController {
     }
 
     public async getBill( billId: string ): Promise<Bill> {
-        return await this.billDAO.getBillOptions(billId);
+        return await this.billDAO.getActiveBill(billId);
     }
 
     public async joinBill( joinData ): Promise<string | boolean> {
@@ -43,7 +43,7 @@ export class BillController {
         const result = this.billValidator.validateJoinBill(joinData);
 
         if ( result.error) {
-            console.log(result.error);
+            console.error(result.error);
             return false;
         }
 

@@ -19,10 +19,9 @@ export class BillRoutes {
 
         app.route("/bill/:billId")
             .get( async (req: Request, res: Response) => {
+                
                 const billId: string = req.params["billId"];
-                console.log(billId);
                 const bill: Bill = await this.billController.getBill(billId);
-                console.log(bill.toDict());
                 if( bill != null) {
                     res.status(200).send({
                         message: bill.toDict()

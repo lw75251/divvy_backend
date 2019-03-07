@@ -15,7 +15,18 @@ export class BillDAO {
         this.inActiveRef = db.collection("bills");
     };
 
-    public getBillOptions =  async ( uid: string)  => {
+    public getActiveBill =  async ( uid: string)  => {
+
+        const snapshot = await this.activeRef.doc(uid).get();
+        if (!snapshot.exists) {
+            return null;
+        }
+        else {
+            return new Bill(snapshot.data());
+        }
+    }
+
+    public getInActiveBill =  async ( uid: string)  => {
 
         const snapshot = await this.inActiveRef.doc(uid).get();
         if (!snapshot.exists) {
@@ -48,11 +59,10 @@ export class BillDAO {
 
     public async joinActiveBill( joinKey: string, userId: string ): Promise<string|boolean> {
         let joined: string | boolean = false;
-        console.log(joinKey, userId);
+
         await this.activeRef.where("joinKey", "==", joinKey).get()
             .then( (snapshot) => {
                 snapshot.docs.forEach( (docSnapshot) => {
-                    console.log(docSnapshot.id);
                     this.joinBillFirestore(docSnapshot.id,userId);
                     joined = docSnapshot.id;
                 })

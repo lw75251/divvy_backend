@@ -22,21 +22,23 @@ export class Bill {
     // private items: Array<Item>;
 
     constructor( billData ) {
-        // this.uid = billData["uid"];
+        this.uid = billData["uid"];
         // this.restaurantId = billData["restaurantId"];
         this.timestamp = billData["timestamp"];
         // this.items = billData["items"];
-        this.joinKey = nanoid(5);
+        if( billData["joinKey"] == null ) {
+            this.joinKey = nanoid(5);
+        } else  {
+            this.joinKey = billData["joinKey"];
+        } 
 
         if ( billData["users"] == null ) {
             this.users = new Array<string>();
             this.users.push(billData["userId"]);
-        } else {
+        } 
+        else {
             this.users = billData["users"];
         }
-
-
-
     }
 
     public getUid = () => this.uid;
