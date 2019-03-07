@@ -31,6 +31,8 @@ export class UserDAO {
             if( snapshot.exists ) {
                 exists = true;
             }
+        }).catch( (err) => {
+            console.error("Could not retrieve UserRef snapshot");
         })
         return exists;
     }
