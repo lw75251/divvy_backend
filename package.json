@@ -5,6 +5,7 @@
   "main": "src/app.ts",
   "scripts": {
     "prebuild": "tslint -c ./configs/tslint.json -p ./configs/tsconfig.json --fix",
+    "dev": "ts-node ./src/server.ts",
     "start": "ts-node ./src/server.ts"
   },
   "repository": {
