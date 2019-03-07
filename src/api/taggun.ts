@@ -15,8 +15,8 @@ export interface TaggunOptions {
 }
 
 export class TaggunController {
-    private taggunOptions: JSON = require("../../../taggun.json");
-    private apikey: string = this.taggunOptions["taggunApiKey"];
+    // private taggunOptions = require("../../../taggun.json");
+    private apikey: string = process.env.TAGGUN_API_KEY;
 
     /**
      * getReceiptJSON - Returns JSON from Taggun
