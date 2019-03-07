@@ -11,14 +11,14 @@ import * as admin from "firebase-admin";
 
 const PROJECT_ID = process.env.PROJECT_ID;
 const CLIENT_EMAIL = process.env.CLIENT_EMAIL;
-const PRIVATE_KEY = process.env.PRIVATE_KEY;
+const PRIVATE_KEY = process.env.PRIVATE_KEY.replace(/\\n/g, "\n");
 const DATABASE_URL = process.env.DATABASE_URL;
 
 admin.initializeApp({
   credential: admin.credential.cert({
-    projectId: PROJECT_ID,
     clientEmail: CLIENT_EMAIL,
-    privateKey: PRIVATE_KEY.replace(/\\n/g, '\n')
+    privateKey: PRIVATE_KEY,
+    projectId: PROJECT_ID
   }),
   databaseURL: DATABASE_URL
 });
