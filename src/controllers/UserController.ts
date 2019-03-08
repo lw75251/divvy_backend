@@ -68,6 +68,7 @@ export class UserController {
     }
 
     public async checkUserExists(uid: string): Promise<boolean> {
+        console.log("uid value: ", uid);
         return await this.userDAO.userRefExists(uid);
     }
 

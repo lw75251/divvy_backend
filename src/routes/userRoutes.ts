@@ -26,6 +26,7 @@ export class UserRoutes {
         app.route("/users")
             .post( async (req: Request, res: Response) => {
 
+                console.log("POST USER ENDPOINT");
                 const body = req.body;
 
                 if ( await this.userController.createUser(body) ) {
