@@ -16,7 +16,6 @@ class App {
         this.app.use(bodyParser.json());
         this.userRoutes.routes(this.app);
         this.billRoutes.routes(this.app);
-        console.log("Routes setup");
     }
 
     private config(): void {

@@ -12,7 +12,7 @@ export class UserValidator {
             displayName: Joi.string(),
             email: Joi.string(),
             // company: Joi.string(),
-            phoneNumber: Joi.string(),
+            phoneNumber: Joi.any(),
             photoUrl: Joi.string().optional()
         });
 
